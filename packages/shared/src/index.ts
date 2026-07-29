@@ -50,6 +50,17 @@ export * from "./components/ui/tooltip";
 
 // Layout Components
 export * from "./components/layout/AppShell";
+export * from "./components/layout/DesktopShell";
 export * from "./components/layout/AppSidebar";
 export * from "./components/layout/BottomNav";
 export * from "./components/layout/Ui";
+
+// Dashboards
+export * from "./components/dashboards/AgenDashboard";
+export * from "./components/dashboards/JamaahDashboard";
+export * from "./components/dashboards/MuthawifDashboard";
+export * from "./components/dashboards/DirekturDashboard";
+export * from "./components/dashboards/OperasionalDashboard";
+export * from "./components/dashboards/KeuanganDashboard";
+export * from "./components/dashboards/MarketingDashboard";
+export * from "./components/dashboards/CsDashboard";

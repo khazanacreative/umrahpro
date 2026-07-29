@@ -27,11 +27,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { DesktopShell } from "@/components/layout/DesktopShell";
-import { PageHeader, StatCard, StatusBadge } from "@/components/layout/Ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { DesktopShell, PageHeader, StatCard, StatusBadge } from "@umrahpro/shared";
+import { Card, CardContent, CardHeader, CardTitle } from "@umrahpro/shared";
+import { Button } from "@umrahpro/shared";
+import { Progress } from "@umrahpro/shared";
 import {
   Table,
   TableBody,
@@ -39,7 +38,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@umrahpro/shared";
 import {
   AKTIVITAS,
   CHART_DEMOGRAFI,
@@ -51,17 +50,17 @@ import {
   formatAngka,
   formatRupiah,
   statistik,
-} from "@/data/mock";
+} from "@umrahpro/shared";
 import { useEffect } from "react";
-import { useRole, initRole } from "@/lib/role-store";
-import { AgenDashboard } from "@/components/dashboards/AgenDashboard";
-import { JamaahDashboard } from "@/components/dashboards/JamaahDashboard";
-import { MuthawifDashboard } from "@/components/dashboards/MuthawifDashboard";
-import { DirekturDashboard } from "@/components/dashboards/DirekturDashboard";
-import { OperasionalDashboard } from "@/components/dashboards/OperasionalDashboard";
-import { KeuanganDashboard } from "@/components/dashboards/KeuanganDashboard";
-import { MarketingDashboard } from "@/components/dashboards/MarketingDashboard";
-import { CsDashboard } from "@/components/dashboards/CsDashboard";
+import { useRole, initRole } from "@umrahpro/shared";
+import { AgenDashboard } from "@umrahpro/shared";
+import { JamaahDashboard } from "@umrahpro/shared";
+import { MuthawifDashboard } from "@umrahpro/shared";
+import { DirekturDashboard } from "@umrahpro/shared";
+import { OperasionalDashboard } from "@umrahpro/shared";
+import { KeuanganDashboard } from "@umrahpro/shared";
+import { MarketingDashboard } from "@umrahpro/shared";
+import { CsDashboard } from "@umrahpro/shared";
 
 export const Route = createFileRoute("/")({
   head: () => ({
