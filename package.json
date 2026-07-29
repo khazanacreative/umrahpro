@@ -10,7 +10,8 @@
     "dev:admin": "cd apps/internal-management && npm run dev",
     "dev:agen": "cd apps/agen-marketing && npm run dev",
     "dev:jamaah": "cd apps/jamaah-timlapangan && npm run dev",
-    "build": "npm run build --workspaces",
+    "build": "npm run build:apps",
+    "build:apps": "npm --workspace @umrahpro/internal-management run build && npm --workspace @umrahpro/agen-marketing run build && npm --workspace @umrahpro/jamaah-timlapangan run build",
     "install:all": "npm install"
   }
 }
