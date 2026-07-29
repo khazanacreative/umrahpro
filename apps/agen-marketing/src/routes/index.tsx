@@ -80,9 +80,10 @@ function MobileLayout({ children }: { children: ReactNode }) {
                 Aplikasi Lain
               </DropdownMenuLabel>
               <DropdownMenuItem asChild>
-                <a href="/admin" className="flex items-center gap-2 text-sm">
+                <a href="/" className="flex items-center gap-2 text-sm">
                   <Building2 className="size-4" />
                   <span className="flex-1">Manajemen Internal</span>
+                  <span className="text-[10px] text-muted-foreground">(Utama)</span>
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -240,13 +241,13 @@ function AgenMarketingPage() {
       <section className="mt-4 space-y-2">
         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Aplikasi Lainnya</p>
         <div className="grid grid-cols-2 gap-2">
-          <a href="/admin" className="flex items-center gap-3 rounded-xl border p-3 transition-colors hover:bg-accent">
+          <a href="/" className="flex items-center gap-3 rounded-xl border p-3 transition-colors hover:bg-accent">
             <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
               <Building2 className="size-5" />
             </div>
             <div className="min-w-0">
               <p className="truncate text-sm font-medium">Manajemen</p>
-              <p className="truncate text-[11px] text-muted-foreground">Admin Panel</p>
+              <p className="truncate text-[11px] text-muted-foreground">Utama</p>
             </div>
           </a>
           <a href="/jamaah" className="flex items-center gap-3 rounded-xl border p-3 transition-colors hover:bg-accent">

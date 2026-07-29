@@ -2,13 +2,13 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/apps/agen-marketing/$1"
+      "destination": "/apps/internal-management/$1"
     }
   ],
   "routes": [
     {
-      "src": "/admin/(.*)",
-      "dest": "/apps/internal-management/$1"
+      "src": "/marketing/(.*)",
+      "dest": "/apps/agen-marketing/$1"
     },
     {
       "src": "/jamaah/(.*)",

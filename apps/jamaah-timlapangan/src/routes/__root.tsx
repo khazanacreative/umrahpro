@@ -144,13 +144,14 @@ function AppSwitcher() {
         <DropdownMenuItem asChild>
           <a href="/" className="flex items-center gap-2 text-sm">
             <Building2 className="size-4" />
-            <span className="flex-1">Agen & Marketing</span>
+            <span className="flex-1">Manajemen Internal</span>
+            <span className="text-[10px] text-muted-foreground">(Utama)</span>
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <a href="/admin" className="flex items-center gap-2 text-sm">
-            <Building2 className="size-4" />
-            <span className="flex-1">Manajemen Internal</span>
+          <a href="/marketing" className="flex items-center gap-2 text-sm">
+            <Users className="size-4" />
+            <span className="flex-1">Agen & Marketing</span>
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
