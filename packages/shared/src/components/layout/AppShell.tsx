@@ -1,22 +1,21 @@
 import { useEffect, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Bell, LogOut, Search } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { BottomNav } from "./BottomNav";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { ROLE_LABELS, type Role } from "@/lib/roles";
-import { initRole, setRole, useUser } from "@/lib/role-store";
-import { cn } from "@/lib/utils";
+} from "../ui/select";
+import { ROLE_LABELS, type Role } from "../../lib/roles";
+import { initRole, setRole, useUser } from "../../lib/role-store";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const user = useUser();
@@ -32,6 +31,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <header className="sticky top-0 z-30 flex h-16 items-center gap-2 border-b bg-card/85 px-3 backdrop-blur sm:px-5">
             <SidebarTrigger />
 
+            {/* Search */}
             <div className="relative hidden min-w-0 flex-1 md:block">
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -41,12 +41,16 @@ export function AppShell({ children }: { children: ReactNode }) {
               />
             </div>
 
+            {/* Right section: User info + actions */}
             <div className="ml-auto flex shrink-0 items-center gap-3">
+              {/* User avatar + name (desktop) */}
               <div className="hidden items-center gap-2 sm:flex">
                 <img
                   src={user.avatar}
                   alt={user.name}
                   className="size-8 rounded-full ring-2 ring-border"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none" }}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none" }}
                 />
                 <div className="min-w-0 max-w-[160px]">
                   <p className="truncate text-sm font-medium leading-tight text-foreground">
@@ -56,12 +60,14 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </div>
               </div>
 
+              {/* Avatar only (mobile) */}
               <div className="sm:hidden">
                 <div className="grid size-8 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
                   {user.initials}
                 </div>
               </div>
 
+              {/* Role switcher */}
               <Select value={user.role} onValueChange={(v) => setRole(v as Role)}>
                 <SelectTrigger className="h-8 w-[130px] border-dashed text-xs sm:w-[170px]" aria-label="Ganti peran">
                   <SelectValue />

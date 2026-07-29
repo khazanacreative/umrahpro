@@ -7,7 +7,7 @@ export interface SessionUser {
   email: string;
   initials: string;
   jabatan: string;
-  avatar: string;
+  avatar: string; // URL ke UI Avatars
 }
 
 const KEY = "umrahpro-role";
