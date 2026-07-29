@@ -2,7 +2,7 @@ import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   Users, Wallet, Share2, Trophy, TrendingUp, UserPlus, Award, Gift, Download, Copy, LinkIcon,
-  ChevronDown, Check,
+  ChevronDown, Check, Building2,
 } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { PageHeader, StatCard, StatusBadge, initRole, useRole, ROLE_LABELS } from "@umrahpro/shared";
@@ -18,6 +18,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@umrahpro/shared";
 
@@ -70,6 +72,25 @@ function MobileLayout({ children }: { children: ReactNode }) {
                   <span className="flex-1">{label}</span>
                 </DropdownMenuItem>
               ))}
+              
+              <DropdownMenuSeparator />
+              
+              {/* App Switcher */}
+              <DropdownMenuLabel className="px-2 pb-1 pt-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Aplikasi Lain
+              </DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <a href="/admin" className="flex items-center gap-2 text-sm">
+                  <Building2 className="size-4" />
+                  <span className="flex-1">Manajemen Internal</span>
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="/jamaah" className="flex items-center gap-2 text-sm">
+                  <Users className="size-4" />
+                  <span className="flex-1">Jamaah & Tim Lapangan</span>
+                </a>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
