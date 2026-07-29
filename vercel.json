@@ -4,5 +4,15 @@
       "source": "/(.*)",
       "destination": "/apps/agen-marketing/$1"
     }
+  ],
+  "routes": [
+    {
+      "src": "/admin/(.*)",
+      "dest": "/apps/internal-management/$1"
+    },
+    {
+      "src": "/jamaah/(.*)",
+      "dest": "/apps/jamaah-timlapangan/$1"
+    }
   ]
 }

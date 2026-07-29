@@ -1,239 +1,351 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
 import {
-  BellRing, BookOpen, Cloud, Compass, CreditCard, FileText, MapPin, Phone,
-  Plane, QrCode, Award, MessageCircle, Sparkles,
+  Users,
+  Package,
+  Plane,
+  MapPin,
+  CheckCircle2,
+  Wallet,
+  AlertTriangle,
+  Stamp,
+  FileText,
+  Hotel as HotelIcon,
+  CalendarDays,
+  Bell,
 } from "lucide-react";
-import { PageHeader, StatusBadge, initRole } from "@umrahpro/shared";
-import { Button } from "@umrahpro/shared";
-import { Badge } from "@umrahpro/shared";
-import { Card, CardContent, CardHeader, CardTitle } from "@umrahpro/shared";
-import { Progress } from "@umrahpro/shared";
-import { ITINERARI, JAMAAH, formatRupiah } from "@umrahpro/shared";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { AppShell } from "@/components/layout/AppShell";
+import { PageHeader, StatCard, StatusBadge } from "@/components/layout/Ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  AKTIVITAS,
+  CHART_DEMOGRAFI,
+  CHART_PAKET,
+  CHART_PENDAFTARAN,
+  CHART_PENDAPATAN,
+  PENERBANGAN,
+  PENGUMUMAN,
+  formatAngka,
+  formatRupiah,
+  statistik,
+} from "@/data/mock";
+import { useEffect } from "react";
+import { useRole, initRole } from "@/lib/role-store";
+import { AgenDashboard } from "@/components/dashboards/AgenDashboard";
+import { JamaahDashboard } from "@/components/dashboards/JamaahDashboard";
+import { MuthawifDashboard } from "@/components/dashboards/MuthawifDashboard";
+import { DirekturDashboard } from "@/components/dashboards/DirekturDashboard";
+import { OperasionalDashboard } from "@/components/dashboards/OperasionalDashboard";
+import { KeuanganDashboard } from "@/components/dashboards/KeuanganDashboard";
+import { MarketingDashboard } from "@/components/dashboards/MarketingDashboard";
+import { CsDashboard } from "@/components/dashboards/CsDashboard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Portal Jamaah — UmrahPro" },
-      { name: "description", content: "Portal pribadi jamaah umroh." },
+      { title: "Dashboard Eksekutif — UmrahPro" },
+      {
+        name: "description",
+        content:
+          "Ringkasan operasional travel umroh: jamaah, keberangkatan, pendapatan, visa, dan okupansi hotel.",
+      },
+      { property: "og:title", content: "Dashboard Eksekutif — UmrahPro" },
+      {
+        property: "og:description",
+        content: "Ringkasan operasional travel umroh dalam satu layar.",
+      },
     ],
   }),
-  component: JamaahPage,
+  component: Dashboard,
 });
 
-const SHOLAT = [
-  { nama: "Subuh", jam: "04:32" },
-  { nama: "Dzuhur", jam: "12:14" },
-  { nama: "Ashar", jam: "15:38" },
-  { nama: "Maghrib", jam: "18:41" },
-  { nama: "Isya", jam: "20:02" },
+const PIE_COLORS = [
+  "var(--color-chart-1)",
+  "var(--color-chart-2)",
+  "var(--color-chart-3)",
+  "var(--color-chart-4)",
 ];
 
-const KONTAK = [
-  { label: "Tour Leader (H. Yusuf)", no: "+966 55 123 4567" },
-  { label: "Kantor Pusat", no: "+62 21 5567 1200" },
-  { label: "KJRI Jeddah", no: "+966 12 660 1888" },
-  { label: "Ambulans", no: "997" },
-];
-
-const CHECKLIST = [
-  { label: "Paspor & Visa", done: true },
-  { label: "Vaksin Meningitis", done: true },
-  { label: "Manasik akbar", done: true },
-  { label: "Kelengkapan bagasi", done: false },
-  { label: "Pelunasan tagihan", done: false },
-];
-
-function MobileLayout({ children }: { children: ReactNode }) {
-  useEffect(() => { initRole(); }, []);
+function Dashboard() {
+  // Initialize role from URL parameter before rendering
+  useEffect(() => {
+    initRole();
+  }, []);
+  
+  const role = useRole();
+  if (role === "agen") return <AppShell><AgenDashboard /></AppShell>;
+  if (role === "jamaah") return <AppShell><JamaahDashboard /></AppShell>;
+  if (role === "tour_leader" || role === "guide") return <AppShell><MuthawifDashboard /></AppShell>;
+  if (role === "direktur") return <AppShell><DirekturDashboard /></AppShell>;
+  if (role === "operasional") return <AppShell><OperasionalDashboard /></AppShell>;
+  if (role === "keuangan") return <AppShell><KeuanganDashboard /></AppShell>;
+  if (role === "marketing") return <AppShell><MarketingDashboard /></AppShell>;
+  if (role === "customer_service") return <AppShell><CsDashboard /></AppShell>;
   return (
-    <div className="mx-auto min-h-screen max-w-lg bg-background pb-24">
-      <header className="sticky top-0 z-30 border-b bg-card/85 px-4 py-3 backdrop-blur">
-        <div className="flex items-center gap-2">
-          <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary text-[10px] font-bold text-primary-foreground">UP</div>
-          <div className="min-w-0">
-            <p className="truncate font-display text-sm font-semibold">Jamaah & Tim Lapangan</p>
-            <p className="truncate text-[11px] text-muted-foreground">Portal Perjalanan Umroh</p>
-          </div>
-        </div>
-      </header>
-      <main className="px-4 py-4">{children}</main>
-    </div>
-  );
-}
-
-function JamaahPage() {
-  const jamaah = JAMAAH[0];
-  const progress = Math.round((jamaah.terbayar / jamaah.totalTagihan) * 100);
-  const doneCount = CHECKLIST.filter((c) => c.done).length;
-
-  return (
-    <MobileLayout>
+    <AppShell>
       <PageHeader
-        title={`Assalamualaikum, ${jamaah.nama.split(" ")[0]}`}
-        description="Portal jamaah umroh Anda"
+        title="Dashboard Eksekutif"
+        description="Ringkasan operasional agensi umroh hari ini"
         actions={
-          <Button variant="outline" size="sm" asChild>
-            <Link to="/cs"><MessageCircle className="size-4" /> CS</Link>
-          </Button>
+          <>
+            <Button variant="outline" asChild>
+              <Link to="/laporan">Lihat Laporan</Link>
+            </Button>
+            <Button asChild>
+              <Link to="/jamaah">Daftarkan Jamaah</Link>
+            </Button>
+          </>
         }
       />
 
-      {/* Kartu Digital */}
-      <Card className="card-elevated mb-4 overflow-hidden bg-gradient-to-br from-primary via-primary to-primary/80 text-primary-foreground">
-        <CardContent className="flex items-center gap-4 p-4">
-          <div className="min-w-0 flex-1">
-            <p className="text-[10px] uppercase tracking-widest opacity-80">Kartu Jamaah</p>
-            <p className="mt-1 font-display text-lg">{jamaah.nama}</p>
-            <p className="text-xs opacity-90">{jamaah.id} · {jamaah.paket}</p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              <Badge className="bg-primary-foreground/15 text-[10px] text-primary-foreground">Kamar {jamaah.kamar}</Badge>
-              <Badge className="bg-gold text-[10px] text-gold-foreground">{jamaah.status}</Badge>
-            </div>
-          </div>
-          <QrCode className="size-16 shrink-0 opacity-80" />
-        </CardContent>
-      </Card>
-
-      {/* Quick Menu */}
-      <section className="mb-4 grid grid-cols-3 gap-2">
-        {[
-          { icon: Plane, label: "Jadwal", href: "/penerbangan" },
-          { icon: FileText, label: "Dokumen", href: "/dokumen" },
-          { icon: CreditCard, label: "Pembayaran", href: "/pembayaran" },
-          { icon: BookOpen, label: "Panduan", href: "/panduan" },
-          { icon: MapPin, label: "Itinerari", href: "/itinerari" },
-          { icon: BellRing, label: "Info", href: "/pengumuman" },
-        ].map((m) => (
-          <Link key={m.label} to={m.href}
-            className="flex flex-col items-center gap-1 rounded-xl border bg-card p-3 text-center transition hover:border-primary/40"
-          >
-            <div className="grid size-9 place-items-center rounded-lg bg-primary-soft text-primary">
-              <m.icon className="size-4" />
-            </div>
-            <span className="text-[10px] font-medium">{m.label}</span>
-          </Link>
-        ))}
+      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard label="Total Jamaah" value={formatAngka(statistik.totalJamaah)} icon={Users} hint="Seluruh angkatan" />
+        <StatCard label="Paket Aktif" value={statistik.paketAktif} icon={Package} tone="gold" hint="Tersedia untuk dijual" />
+        <StatCard label="Keberangkatan Mendatang" value={statistik.keberangkatanMendatang} icon={Plane} hint="30 hari ke depan" />
+        <StatCard label="Jamaah di Saudi" value={statistik.diSaudi} icon={MapPin} tone="success" hint="Sedang dalam perjalanan" />
+        <StatCard label="Umroh Selesai" value={statistik.selesai} icon={CheckCircle2} tone="success" />
+        <StatCard label="Total Pendapatan" value={formatRupiah(statistik.pendapatan)} icon={Wallet} tone="gold" />
+        <StatCard label="Tunggakan" value={formatRupiah(statistik.tunggakan)} icon={AlertTriangle} tone="destructive" />
+        <StatCard label="Visa Terbit" value={statistik.visaTerbit} icon={Stamp} hint={`${statistik.visaDiproses} diproses · ${statistik.visaDitolak} ditolak`} />
       </section>
 
-      {/* Jadwal Sholat */}
-      <Card className="card-elevated mb-4">
-        <CardHeader className="pb-2"><CardTitle className="flex items-center justify-between text-sm"><span>Jadwal Shalat Makkah</span><Badge variant="outline" className="text-[10px]">27 Jul</Badge></CardTitle></CardHeader>
-        <CardContent className="space-y-1.5">
-          {SHOLAT.map((s) => (
-            <div key={s.nama} className="flex items-center justify-between rounded-lg border px-3 py-2 text-sm">
-              <span>{s.nama}</span>
-              <span className="font-mono font-semibold text-primary">{s.jam}</span>
-            </div>
-          ))}
-          <div className="mt-2 grid grid-cols-2 gap-2">
-            <div className="rounded-xl border p-3 text-center">
-              <Compass className="mx-auto size-5 text-primary" />
-              <p className="text-[10px] text-muted-foreground">Kiblat</p>
-              <p className="font-display text-sm">292°</p>
-            </div>
-            <div className="rounded-xl border p-3 text-center">
-              <Cloud className="mx-auto size-5 text-info" />
-              <p className="text-[10px] text-muted-foreground">Cuaca</p>
-              <p className="font-display text-sm">38°C</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <section className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Card className="card-elevated lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="text-base">Pendapatan Bulanan</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[260px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={CHART_PENDAPATAN}>
+                <defs>
+                  <linearGradient id="rev" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="var(--color-chart-1)" stopOpacity={0.5} />
+                    <stop offset="100%" stopColor="var(--color-chart-1)" stopOpacity={0.03} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                <XAxis dataKey="bulan" tickLine={false} axisLine={false} fontSize={12} />
+                <YAxis
+                  tickFormatter={(v: number) => `${v / 1_000_000_000} M`}
+                  tickLine={false}
+                  axisLine={false}
+                  fontSize={12}
+                />
+                <Tooltip formatter={(v: number) => formatRupiah(v)} />
+                <Area isAnimationActive={false}
+                  type="monotone"
+                  dataKey="pendapatan"
+                  stroke="var(--color-chart-1)"
+                  strokeWidth={2}
+                  fill="url(#rev)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
-      {/* Itinerari */}
-      <Card className="card-elevated mb-4">
-        <CardHeader className="pb-2"><CardTitle className="text-sm">Itinerari Hari Ini</CardTitle></CardHeader>
-        <CardContent>
-          <ol className="relative space-y-3 border-l pl-4">
-            {ITINERARI.slice(0, 3).map((it) => (
-              <li key={it.hari} className="relative">
-                <span className="absolute -left-[22px] top-0.5 grid size-4 place-items-center rounded-full bg-primary text-[8px] font-bold text-primary-foreground">{it.hari}</span>
-                <p className="text-sm font-medium">{it.judul}</p>
-                <p className="text-xs text-muted-foreground">{it.lokasi} · {it.jam}</p>
-              </li>
-            ))}
-          </ol>
-        </CardContent>
-      </Card>
+        <Card className="card-elevated">
+          <CardHeader>
+            <CardTitle className="text-base">Pendaftaran per Bulan</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[260px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={CHART_PENDAFTARAN}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                <XAxis dataKey="bulan" tickLine={false} axisLine={false} fontSize={12} />
+                <YAxis tickLine={false} axisLine={false} fontSize={12} />
+                <Tooltip />
+                <Bar isAnimationActive={false} dataKey="jamaah" fill="var(--color-chart-2)" radius={[6, 6, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </section>
 
-      {/* Pembayaran */}
-      <Card className="card-elevated mb-4">
-        <CardHeader className="pb-2"><CardTitle className="text-sm">Pembayaran</CardTitle></CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <div className="flex justify-between"><span className="text-muted-foreground">Tagihan</span><span className="font-semibold">{formatRupiah(jamaah.totalTagihan)}</span></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">Terbayar</span><span className="font-semibold text-success">{formatRupiah(jamaah.terbayar)}</span></div>
-          <Progress value={progress} />
-          <Button className="w-full" size="sm"><CreditCard className="size-4" /> Bayar Cicilan</Button>
-        </CardContent>
-      </Card>
+      <section className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Card className="card-elevated">
+          <CardHeader>
+            <CardTitle className="text-base">Popularitas Paket</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[240px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={CHART_PAKET} layout="vertical" margin={{ left: 24 }}>
+                <XAxis type="number" hide />
+                <YAxis dataKey="kategori" type="category" width={80} tickLine={false} axisLine={false} fontSize={12} />
+                <Tooltip />
+                <Bar isAnimationActive={false} dataKey="jumlah" fill="var(--color-chart-1)" radius={[0, 6, 6, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
-      {/* Checklist */}
-      <Card className="card-elevated mb-4">
-        <CardHeader className="pb-2"><CardTitle className="flex items-center justify-between text-sm"><span className="flex items-center gap-1"><Award className="size-4 text-gold-foreground" /> Persiapan</span><Badge variant="outline" className="text-[10px]">{doneCount}/{CHECKLIST.length}</Badge></CardTitle></CardHeader>
-        <CardContent className="space-y-1.5 text-sm">
-          {CHECKLIST.map((c) => (
-            <label key={c.label} className="flex cursor-pointer items-center gap-2 rounded-lg border p-2.5">
-              <input type="checkbox" defaultChecked={c.done} className="size-4 accent-primary" />
-              <span className={c.done ? "text-muted-foreground line-through" : ""}>{c.label}</span>
-            </label>
-          ))}
-        </CardContent>
-      </Card>
+        <Card className="card-elevated">
+          <CardHeader>
+            <CardTitle className="text-base">Demografi Jamaah</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[240px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie isAnimationActive={false} data={CHART_DEMOGRAFI} dataKey="value" nameKey="nama" innerRadius={50} outerRadius={80}>
+                  {CHART_DEMOGRAFI.map((_, i) => (
+                    <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
-      {/* Kontak Darurat */}
-      <Card className="card-elevated mb-4">
-        <CardHeader className="pb-2"><CardTitle className="flex items-center gap-1 text-sm"><Phone className="size-4" /> Kontak Darurat</CardTitle></CardHeader>
-        <CardContent className="space-y-1.5 text-sm">
-          {KONTAK.map((k) => (
-            <a key={k.no} href={`tel:${k.no.replace(/\s/g, "")}`}
-              className="flex items-center justify-between rounded-lg border p-3 transition hover:border-primary/40"
-            >
-              <div className="min-w-0">
-                <p className="truncate font-medium">{k.label}</p>
-                <p className="font-mono text-xs text-muted-foreground">{k.no}</p>
+        <Card className="card-elevated">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <HotelIcon className="size-4 text-primary" /> Okupansi Hotel
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {[
+              { nama: "Swissotel Al Maqam (Makkah)", v: 88 },
+              { nama: "Pullman ZamZam (Makkah)", v: 72 },
+              { nama: "Movenpick (Madinah)", v: 64 },
+              { nama: "Dar Al Taqwa (Madinah)", v: 45 },
+            ].map((h) => (
+              <div key={h.nama}>
+                <div className="mb-1 flex justify-between text-xs">
+                  <span className="truncate pr-2 text-muted-foreground">{h.nama}</span>
+                  <span className="font-semibold">{h.v}%</span>
+                </div>
+                <Progress value={h.v} />
               </div>
-              <Phone className="size-4 text-primary shrink-0" />
-            </a>
-          ))}
-        </CardContent>
-      </Card>
+            ))}
+          </CardContent>
+        </Card>
+      </section>
 
-      {/* Frasa Arab */}
-      <Card className="card-elevated mb-4">
-        <CardHeader className="pb-2"><CardTitle className="flex items-center gap-1 text-sm"><Sparkles className="size-4" /> Frasa Arab</CardTitle></CardHeader>
-        <CardContent className="space-y-1.5 text-sm">
-          {[
-            { ar: "كم السعر؟", id: "Berapa harganya?" },
-            { ar: "أين الحمام؟", id: "Di mana toilet?" },
-            { ar: "ساعدني من فضلك", id: "Tolong saya" },
-          ].map((f) => (
-            <div key={f.id} className="flex items-center justify-between rounded-lg border px-3 py-2">
-              <span dir="rtl" className="font-display text-base">{f.ar}</span>
-              <span className="text-xs text-muted-foreground">{f.id}</span>
+      <section className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Card className="card-elevated lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Plane className="size-4 text-primary" /> Jadwal Penerbangan Terdekat
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="px-0">
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Maskapai</TableHead>
+                    <TableHead>No.</TableHead>
+                    <TableHead>Rute</TableHead>
+                    <TableHead>Tanggal</TableHead>
+                    <TableHead className="text-right">Kursi</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {PENERBANGAN.slice(0, 5).map((f) => (
+                    <TableRow key={f.id}>
+                      <TableCell className="font-medium">{f.maskapai}</TableCell>
+                      <TableCell>{f.nomor}</TableCell>
+                      <TableCell>
+                        {f.dari} → {f.ke}
+                      </TableCell>
+                      <TableCell>
+                        {f.tanggal} · {f.jam}
+                      </TableCell>
+                      <TableCell className="text-right">{f.kursi}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
-          ))}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* Bottom Nav */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 border-t bg-card pb-[env(safe-area-inset-bottom)] backdrop-blur">
-        <ul className="mx-auto grid max-w-lg grid-cols-4">
-          {[
-            { icon: MapPin, label: "Itinerari", href: "/", active: true },
-            { icon: BookOpen, label: "Panduan", href: "/panduan", active: false },
-            { icon: BellRing, label: "Info", href: "/pengumuman", active: false },
-            { icon: Award, label: "Sertifikat", href: "/sertifikat", active: false },
-          ].map((item) => (
-            <li key={item.label}>
-              <Link to={item.href} className={`flex flex-col items-center gap-0.5 px-1 py-2 text-[10px] font-medium transition-colors ${item.active ? "text-primary" : "text-muted-foreground"}`}>
-                <item.icon className="size-5" />
-                <span>{item.label}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </MobileLayout>
+        <div className="space-y-4">
+          <Card className="card-elevated">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <FileText className="size-4 text-primary" /> Aktivitas Terkini
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ol className="relative space-y-4 border-l pl-4">
+                {AKTIVITAS.map((a) => (
+                  <li key={a.teks} className="relative">
+                    <span className="absolute -left-[21px] top-1.5 size-2 rounded-full bg-gold" />
+                    <p className="text-sm leading-snug">{a.teks}</p>
+                    <p className="text-xs text-muted-foreground">{a.waktu}</p>
+                  </li>
+                ))}
+              </ol>
+            </CardContent>
+          </Card>
+
+          <Card className="card-elevated">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Bell className="size-4 text-primary" /> Notifikasi
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {PENGUMUMAN.slice(0, 3).map((p) => (
+                <div key={p.judul} className="rounded-lg border p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-sm font-medium leading-snug">{p.judul}</p>
+                    <StatusBadge status={p.kategori} />
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">{p.tanggal}</p>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="mt-4">
+        <Card className="card-elevated">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <CalendarDays className="size-4 text-primary" /> Kalender Keberangkatan
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {PENERBANGAN.slice(0, 6).map((f) => (
+              <div key={f.id} className="rounded-xl border p-3 text-center">
+                <p className="font-display text-2xl">{f.tanggal.slice(-2)}</p>
+                <p className="text-xs text-muted-foreground">{f.tanggal.slice(0, 7)}</p>
+                <p className="mt-2 truncate text-xs font-medium">{f.nomor}</p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {f.dari} → {f.ke}
+                </p>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </section>
+    </AppShell>
   );
 }
