@@ -236,6 +236,31 @@ function AgenMarketingPage() {
         </CardContent>
       </Card>
 
+      {/* App Switcher Cards */}
+      <section className="mt-4 space-y-2">
+        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Aplikasi Lainnya</p>
+        <div className="grid grid-cols-2 gap-2">
+          <a href="/admin" className="flex items-center gap-3 rounded-xl border p-3 transition-colors hover:bg-accent">
+            <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+              <Building2 className="size-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium">Manajemen</p>
+              <p className="truncate text-[11px] text-muted-foreground">Admin Panel</p>
+            </div>
+          </a>
+          <a href="/jamaah" className="flex items-center gap-3 rounded-xl border p-3 transition-colors hover:bg-accent">
+            <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-success/10 text-success">
+              <Users className="size-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium">Jamaah</p>
+              <p className="truncate text-[11px] text-muted-foreground">Tim Lapangan</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
       {/* Bottom Nav */}
       <BottomNav />
     </MobileLayout>
