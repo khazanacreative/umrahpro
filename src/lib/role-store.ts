@@ -1,6 +1,9 @@
 import { useSyncExternalStore } from "react";
 import type { Role } from "./roles";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Listener = () => any;
+
 export interface SessionUser {
   role: Role;
   name: string;
@@ -114,6 +117,19 @@ export function setRole(role: Role) {
 
 export function initRole() {
   if (typeof window === "undefined") return;
+  
+  // Check URL parameter first (e.g., ?role=super_admin)
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlRole = urlParams.get("role") as Role | null;
+  
+  if (urlRole && Object.keys(USERS).includes(urlRole)) {
+    current = urlRole;
+    window.localStorage.setItem(KEY, urlRole);
+    emit();
+    return;
+  }
+  
+  // Fallback to localStorage
   const stored = window.localStorage.getItem(KEY) as Role | null;
   if (stored && stored !== current) {
     current = stored;
@@ -123,7 +139,7 @@ export function initRole() {
 
 export function useRole(): Role {
   return useSyncExternalStore(
-    (cb) => {
+    (cb: Listener) => {
       listeners.add(cb);
       return () => listeners.delete(cb);
     },

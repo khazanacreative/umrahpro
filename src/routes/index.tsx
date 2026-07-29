@@ -78,6 +78,15 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
+  beforeLoad: () => {
+    // Support ?role= parameter for easy role switching (e.g., /?role=super_admin)
+    const url = new URL(typeof window !== "undefined" ? window.location.href : "http://localhost");
+    const roleParam = url.searchParams.get("role");
+    if (roleParam) {
+      const { setRole } = require("@/lib/role-store");
+      setRole(roleParam);
+    }
+  },
   component: Dashboard,
 });
 
