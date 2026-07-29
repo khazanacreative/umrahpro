@@ -7,10 +7,19 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Building2, Users, ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@umrahpro/shared";
+import { cn } from "@umrahpro/shared";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -37,9 +46,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -119,11 +125,55 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function AppSwitcher() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <button className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-xs font-medium transition-colors hover:bg-accent">
+          <Building2 className="size-3.5" />
+          <span className="hidden sm:inline">Aplikasi</span>
+          <ChevronDown className={cn("size-3 transition-transform", open && "rotate-180")} />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel className="px-2 pb-1 pt-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+          Pilih Aplikasi
+        </DropdownMenuLabel>
+        <DropdownMenuItem asChild>
+          <a href="/" className="flex items-center gap-2 text-sm">
+            <Building2 className="size-4" />
+            <span className="flex-1">Agen & Marketing</span>
+          </a>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <a href="/admin" className="flex items-center gap-2 text-sm">
+            <Building2 className="size-4" />
+            <span className="flex-1">Manajemen Internal</span>
+            <span className="text-[10px] text-muted-foreground">(Aktif)</span>
+          </a>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <a href="/jamaah" className="flex items-center gap-2 text-sm">
+            <Users className="size-4" />
+            <span className="flex-1">Jamaah & Tim Lapangan</span>
+          </a>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* App Switcher - Fixed Position */}
+      <div className="fixed top-4 right-4 z-50">
+        <AppSwitcher />
+      </div>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
