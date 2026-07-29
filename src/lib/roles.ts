@@ -4,10 +4,10 @@ export type Role =
   | "operasional"
   | "keuangan"
   | "marketing"
+  | "manajer_marketing"
   | "agen"
   | "tour_leader"
   | "guide"
-  | "customer_service"
   | "jamaah";
 
 export const ROLE_LABELS: Record<Role, string> = {
@@ -16,10 +16,10 @@ export const ROLE_LABELS: Record<Role, string> = {
   operasional: "Staf Operasional",
   keuangan: "Keuangan",
   marketing: "Marketing",
+  manajer_marketing: "Manajer Marketing",
   agen: "Agen",
   tour_leader: "Tour Leader (Muthawif)",
   guide: "Pembimbing Ibadah",
-  customer_service: "Customer Service",
   jamaah: "Jamaah",
 };
 
@@ -30,10 +30,10 @@ export const ROLE_GROUPS: Record<Role, string[] | "*"> = {
   operasional: ["Utama", "Jamaah", "Operasional", "Layanan Jamaah", "Sistem"],
   keuangan: ["Utama", "Keuangan", "Jamaah", "Sistem"],
   marketing: ["Utama", "Penjualan", "Layanan Jamaah", "Sistem"],
+  manajer_marketing: ["Utama", "Penjualan", "Layanan Jamaah", "Sistem"],
   agen: ["Utama", "Penjualan", "Jamaah"],
   tour_leader: ["Utama", "Jamaah", "Operasional", "Layanan Jamaah", "Pasca Umroh", "Sistem"],
   guide: ["Utama", "Layanan Jamaah"],
-  customer_service: ["Utama", "Layanan Jamaah", "Jamaah"],
   jamaah: ["Layanan Jamaah", "Pasca Umroh"],
 };
 
@@ -43,7 +43,8 @@ export const ROLE_PERMISSIONS: Record<Role, string[]> = {
   operasional: ["Kelola jamaah, visa, hotel, penerbangan", "Checklist keberangkatan"],
   keuangan: ["Pembayaran, invoice, pengeluaran", "Laporan keuangan & komisi"],
   marketing: ["CRM lead & kampanye", "Paket promo & pengumuman"],
-  agen: ["Daftarkan jamaah", "Lihat komisi & referral"],
+  manajer_marketing: ["Kelola agen & marketing", "Target & komisi", "Laporan performa"],
+  agen: ["Daftarkan jamaah", "Lihat komisi & referral", "Share paket"],
   tour_leader: [
     "Absensi & monitoring jamaah rombongan",
     "Akses data jamaah, hotel, penerbangan, transportasi",
@@ -51,6 +52,5 @@ export const ROLE_PERMISSIONS: Record<Role, string[]> = {
     "Laporan insiden, feedback, dan sertifikat jamaah",
   ],
   guide: ["Panduan ibadah", "Itinerari harian"],
-  customer_service: ["Tiket dukungan", "FAQ & knowledge base"],
-  jamaah: ["Portal jamaah", "Dokumen & pembayaran pribadi"],
+  jamaah: ["Portal jamaah", "Dokumen & pembayaran pribadi", "Itinerari & panduan"],
 };

@@ -56,6 +56,14 @@ const USERS: Record<Role, SessionUser> = {
     jabatan: "Marketing",
     avatar: "https://ui-avatars.com/api/?name=Fajar+Nugroho&background=2d6a4f&color=fff&bold=true",
   },
+  manajer_marketing: {
+    role: "manajer_marketing",
+    name: "Andi Wijaya",
+    email: "andi.wijaya@umrahpro.id",
+    initials: "AW",
+    jabatan: "Manajer Marketing",
+    avatar: "https://ui-avatars.com/api/?name=Andi+Wijaya&background=059669&color=fff&bold=true",
+  },
   agen: {
     role: "agen",
     name: "Budi Santoso",
@@ -79,14 +87,6 @@ const USERS: Record<Role, SessionUser> = {
     initials: "AF",
     jabatan: "Pembimbing Ibadah",
     avatar: "https://ui-avatars.com/api/?name=Ahmad+Faiz&background=0e7490&color=fff&bold=true",
-  },
-  customer_service: {
-    role: "customer_service",
-    name: "Siti Rahmadani",
-    email: "siti.rahmadani@umrahpro.id",
-    initials: "SR",
-    jabatan: "Customer Service",
-    avatar: "https://ui-avatars.com/api/?name=Siti+Rahmadani&background=0891b2&color=fff&bold=true",
   },
   jamaah: {
     role: "jamaah",

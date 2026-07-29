@@ -102,8 +102,7 @@ function Dashboard() {
   if (role === "direktur") return <AppShell><DirekturDashboard /></AppShell>;
   if (role === "operasional") return <AppShell><OperasionalDashboard /></AppShell>;
   if (role === "keuangan") return <AppShell><KeuanganDashboard /></AppShell>;
-  if (role === "marketing") return <AppShell><MarketingDashboard /></AppShell>;
-  if (role === "customer_service") return <AppShell><CsDashboard /></AppShell>;
+  if (role === "marketing" || role === "manajer_marketing") return <AppShell><MarketingDashboard /></AppShell>;
   return (
     <AppShell>
       <PageHeader
