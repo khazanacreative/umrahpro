@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import {
   Users, Wallet, Share2, Trophy, TrendingUp, UserPlus, Award, Gift, Download, Copy, LinkIcon,
@@ -12,6 +12,7 @@ import { Input } from "@umrahpro/shared";
 import { Progress } from "@umrahpro/shared";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@umrahpro/shared";
 import { AGEN, CHART_PENDAFTARAN, JAMAAH, PAKET, formatRupiah } from "@umrahpro/shared";
+import { cn } from "@umrahpro/shared";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,6 +39,35 @@ function MobileLayout({ children }: { children: ReactNode }) {
       </header>
       <main className="px-4 py-4">{children}</main>
     </div>
+  );
+}
+
+function BottomNav() {
+  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  
+  const items = [
+    { icon: TrendingUp, label: "Dashboard", href: "/", match: (p: string) => p === "/" },
+    { icon: Users, label: "Jamaah", href: "/jamaah", match: (p: string) => p.startsWith("/jamaah") },
+    { icon: Share2, label: "Referral", href: "/referral", match: (p: string) => p.startsWith("/referral") },
+    { icon: Wallet, label: "Komisi", href: "/komisi", match: (p: string) => p.startsWith("/komisi") },
+  ];
+
+  return (
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t bg-card pb-[env(safe-area-inset-bottom)] backdrop-blur">
+      <ul className="mx-auto grid max-w-lg grid-cols-4">
+        {items.map((item) => {
+          const active = item.match(pathname);
+          return (
+            <li key={item.label}>
+              <Link to={item.href} className={cn("flex flex-col items-center gap-0.5 px-1 py-2 text-[10px] font-medium transition-colors", active ? "text-primary" : "text-muted-foreground")}>
+                <item.icon className={cn("size-5", active && "stroke-[2.4]")} />
+                <span>{item.label}</span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }
 
@@ -149,23 +179,7 @@ function AgenMarketingPage() {
       </Card>
 
       {/* Bottom Nav */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 border-t bg-card pb-[env(safe-area-inset-bottom)] backdrop-blur">
-        <ul className="mx-auto grid max-w-lg grid-cols-4">
-          {[
-            { icon: TrendingUp, label: "Dashboard", href: "/", active: true },
-            { icon: Users, label: "Jamaah", href: "/jamaah", active: false },
-            { icon: Share2, label: "Referral", href: "/referral", active: false },
-            { icon: Wallet, label: "Komisi", href: "/komisi", active: false },
-          ].map((item) => (
-            <li key={item.label}>
-              <Link to={item.href} className={`flex flex-col items-center gap-0.5 px-1 py-2 text-[10px] font-medium transition-colors ${item.active ? "text-primary" : "text-muted-foreground"}`}>
-                <item.icon className="size-5" />
-                <span>{item.label}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <BottomNav />
     </MobileLayout>
   );
 }
