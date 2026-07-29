@@ -1,8 +1,19 @@
 {
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/apps/internal-management/$1"
+      "src": "apps/internal-management/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "apps/agen-marketing/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "apps/jamaah-timlapangan/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     }
   ],
   "routes": [
@@ -13,6 +24,10 @@
     {
       "src": "/jamaah/(.*)",
       "dest": "/apps/jamaah-timlapangan/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/internal-management/$1"
     }
   ]
 }
