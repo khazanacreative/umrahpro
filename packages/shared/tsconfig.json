@@ -4,6 +4,10 @@
     "target": "ES2022",
     "jsx": "react-jsx",
     "module": "ESNext",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,

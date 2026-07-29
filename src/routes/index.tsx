@@ -27,11 +27,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { AppShell } from "@/components/layout/AppShell";
-import { PageHeader, StatCard, StatusBadge } from "@/components/layout/Ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { AppShell } from "../components/layout/AppShell";
+import { PageHeader, StatCard, StatusBadge } from "../components/layout/Ui";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Progress } from "../components/ui/progress";
 import {
   Table,
   TableBody,
@@ -39,7 +39,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../components/ui/table";
 import {
   AKTIVITAS,
   CHART_DEMOGRAFI,
@@ -51,17 +51,17 @@ import {
   formatAngka,
   formatRupiah,
   statistik,
-} from "@/data/mock";
+} from "../data/mock";
 import { useEffect } from "react";
-import { useRole, initRole } from "@/lib/role-store";
-import { AgenDashboard } from "@/components/dashboards/AgenDashboard";
-import { JamaahDashboard } from "@/components/dashboards/JamaahDashboard";
-import { MuthawifDashboard } from "@/components/dashboards/MuthawifDashboard";
-import { DirekturDashboard } from "@/components/dashboards/DirekturDashboard";
-import { OperasionalDashboard } from "@/components/dashboards/OperasionalDashboard";
-import { KeuanganDashboard } from "@/components/dashboards/KeuanganDashboard";
-import { MarketingDashboard } from "@/components/dashboards/MarketingDashboard";
-import { CsDashboard } from "@/components/dashboards/CsDashboard";
+import { useRole, initRole } from "../lib/role-store";
+import { AgenDashboard } from "../components/dashboards/AgenDashboard";
+import { JamaahDashboard } from "../components/dashboards/JamaahDashboard";
+import { MuthawifDashboard } from "../components/dashboards/MuthawifDashboard";
+import { DirekturDashboard } from "../components/dashboards/DirekturDashboard";
+import { OperasionalDashboard } from "../components/dashboards/OperasionalDashboard";
+import { KeuanganDashboard } from "../components/dashboards/KeuanganDashboard";
+import { MarketingDashboard } from "../components/dashboards/MarketingDashboard";
+import { CsDashboard } from "../components/dashboards/CsDashboard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
