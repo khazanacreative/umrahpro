@@ -1,10 +1,11 @@
 import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   Users, Wallet, Share2, Trophy, TrendingUp, UserPlus, Award, Gift, Download, Copy, LinkIcon,
+  ChevronDown, Check,
 } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { PageHeader, StatCard, StatusBadge, initRole, useRole } from "@umrahpro/shared";
+import { PageHeader, StatCard, StatusBadge, initRole, useRole, ROLE_LABELS } from "@umrahpro/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@umrahpro/shared";
 import { Button } from "@umrahpro/shared";
 import { Badge } from "@umrahpro/shared";
@@ -13,6 +14,12 @@ import { Progress } from "@umrahpro/shared";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@umrahpro/shared";
 import { AGEN, CHART_PENDAFTARAN, JAMAAH, PAKET, formatRupiah } from "@umrahpro/shared";
 import { cn } from "@umrahpro/shared";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@umrahpro/shared";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,15 +33,45 @@ export const Route = createFileRoute("/")({
 
 function MobileLayout({ children }: { children: ReactNode }) {
   useEffect(() => { initRole(); }, []);
+  const role = useRole();
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="mx-auto min-h-screen max-w-lg bg-background pb-24">
       <header className="sticky top-0 z-30 border-b bg-card/85 px-4 py-3 backdrop-blur">
-        <div className="flex items-center gap-2">
-          <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary text-[10px] font-bold text-primary-foreground">AP</div>
-          <div className="min-w-0">
-            <p className="truncate font-display text-sm font-semibold">Agen & Marketing</p>
-            <p className="truncate text-[11px] text-muted-foreground">Mitra UmrahPro</p>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary text-[10px] font-bold text-primary-foreground">AP</div>
+            <div className="min-w-0">
+              <p className="truncate font-display text-sm font-semibold">Agen & Marketing</p>
+              <p className="truncate text-[11px] text-muted-foreground">Mitra UmrahPro</p>
+            </div>
           </div>
+          
+          {/* Role Switcher */}
+          <DropdownMenu open={open} onOpenChange={setOpen}>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-xs font-medium transition-colors hover:bg-accent">
+                <span className="truncate max-w-[80px]">{ROLE_LABELS[role]}</span>
+                <ChevronDown className={cn("size-3 transition-transform", open && "rotate-180")} />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              {Object.entries(ROLE_LABELS).map(([value, label]) => (
+                <DropdownMenuItem
+                  key={value}
+                  onClick={() => { 
+                    import("@umrahpro/shared").then(({ setRole }) => setRole(value as any)); 
+                    setOpen(false); 
+                  }}
+                  className={cn("gap-2 text-sm", value === role && "bg-primary-soft font-medium text-primary")}
+                >
+                  {value === role && <Check className="size-3.5 text-primary" />}
+                  <span className="flex-1">{label}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
       <main className="px-4 py-4">{children}</main>
