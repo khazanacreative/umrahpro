@@ -1,29 +1,95 @@
-# Welcome to your Lovable project
+# UmrahPro - Multi-Platform Monorepo
 
-This project was built with [Lovable](https://lovable.dev).
+Aplikasi manajemen umrah yang dibagi menjadi 3 platform terpisah dengan subdomain masing-masing.
 
-## Build with Lovable
+## Struktur Platform
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+### 1. Internal Management (Desktop)
+- **Subdomain**: `admin.umrahpro.com`
+- **Roles**: super_admin, direktur, operasional, keuangan
+- **Port**: 5173
+- **Fitur**: Dashboard manajemen, laporan, pengaturan, user management
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+### 2. Agen & Marketing (Mobile First)
+- **Subdomain**: `agen.umrahpro.com`
+- **Roles**: marketing, agen
+- **Port**: 5174
+- **Fitur**: CRM, booking, tracking komisi, registrasi jamaah
 
-## Development
+### 3. Jamaah & Tim Lapangan (Mobile First)
+- **Subdomain**: `jamaah.umrahpro.com`
+- **Roles**: tour_leader, guide, customer_service, jamaah
+- **Port**: 5175
+- **Fitur**: Portal jamaah, itinerari, dokumen, feedback
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Struktur Direktori
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```
+umrahpro/
+├── apps/
+│   ├── internal-management/     # Platform admin
+│   ├── agen-marketing/          # Platform agen & marketing
+│   └── jamaah-timlapangan/      # Platform jamaah & tim lapangan
+├── packages/
+│   └── shared/                  # Shared components, types, utilities
+├── package.json                 # Root package.json (monorepo)
+└── README.md
 ```
 
-## Built with
+## Menjalankan Aplikasi
 
-- TanStack Start
+```bash
+# Install dependencies
+npm install
+
+# Jalankan platform Internal Management
+npm run dev:admin
+
+# Jalankan platform Agen & Marketing
+npm run dev:agen
+
+# Jalankan platform Jamaah & Tim Lapangan
+npm run dev:jamaah
+```
+
+## Konfigurasi Subdomain
+
+Setiap platform berjalan di port berbeda untuk development:
+- Internal Management: http://localhost:5173
+- Agen & Marketing: http://localhost:5174
+- Jamaah & Tim Lapangan: http://localhost:5175
+
+Untuk production, konfigurasikan subdomain di DNS dan reverse proxy:
+- admin.umrahpro.com → Internal Management
+- agen.umrahpro.com → Agen & Marketing
+- jamaah.umrahpro.com → Jamaah & Tim Lapangan
+
+## Role-Based Access
+
+Setiap platform hanya mengizinkan akses untuk role tertentu:
+
+### Internal Management
+- super_admin
+- direktur
+- operasional
+- keuangan
+
+### Agen & Marketing
+- marketing
+- agen
+
+### Jamaah & Tim Lapangan
+- tour_leader
+- guide
+- customer_service
+- jamaah
+
+## Tech Stack
+
+- React 18
 - TypeScript
-- React
+- Vite
+- TanStack Router
+- TanStack Query
 - Tailwind CSS
+- Lucide React Icons
