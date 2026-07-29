@@ -27,7 +27,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { AppShell } from "@/components/layout/AppShell";
+import { DesktopShell } from "@/components/layout/DesktopShell";
 import { PageHeader, StatCard, StatusBadge } from "@/components/layout/Ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -96,16 +96,15 @@ function Dashboard() {
   }, []);
   
   const role = useRole();
-  if (role === "agen") return <AppShell><AgenDashboard /></AppShell>;
-  if (role === "jamaah") return <AppShell><JamaahDashboard /></AppShell>;
-  if (role === "tour_leader" || role === "guide") return <AppShell><MuthawifDashboard /></AppShell>;
-  if (role === "direktur") return <AppShell><DirekturDashboard /></AppShell>;
-  if (role === "operasional") return <AppShell><OperasionalDashboard /></AppShell>;
-  if (role === "keuangan") return <AppShell><KeuanganDashboard /></AppShell>;
-  if (role === "marketing") return <AppShell><MarketingDashboard /></AppShell>;
-  if (role === "customer_service") return <AppShell><CsDashboard /></AppShell>;
+  if (role === "agen") return <DesktopShell><AgenDashboard /></DesktopShell>;
+  if (role === "jamaah") return <DesktopShell><JamaahDashboard /></DesktopShell>;
+  if (role === "tour_leader" || role === "guide") return <DesktopShell><MuthawifDashboard /></DesktopShell>;
+  if (role === "direktur") return <DesktopShell><DirekturDashboard /></DesktopShell>;
+  if (role === "operasional") return <DesktopShell><OperasionalDashboard /></DesktopShell>;
+  if (role === "keuangan") return <DesktopShell><KeuanganDashboard /></DesktopShell>;
+  if (role === "marketing" || role === "manajer_marketing") return <DesktopShell><MarketingDashboard /></DesktopShell>;
   return (
-    <AppShell>
+    <DesktopShell>
       <PageHeader
         title="Dashboard Eksekutif"
         description="Ringkasan operasional agensi umroh hari ini"
@@ -346,6 +345,6 @@ function Dashboard() {
           </CardContent>
         </Card>
       </section>
-    </AppShell>
+    </DesktopShell>
   );
 }
