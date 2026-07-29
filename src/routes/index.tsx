@@ -52,7 +52,8 @@ import {
   formatRupiah,
   statistik,
 } from "@/data/mock";
-import { useRole } from "@/lib/role-store";
+import { useEffect } from "react";
+import { useRole, initRole } from "@/lib/role-store";
 import { AgenDashboard } from "@/components/dashboards/AgenDashboard";
 import { JamaahDashboard } from "@/components/dashboards/JamaahDashboard";
 import { MuthawifDashboard } from "@/components/dashboards/MuthawifDashboard";
@@ -78,15 +79,6 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  beforeLoad: () => {
-    // Support ?role= parameter for easy role switching (e.g., /?role=super_admin)
-    const url = new URL(typeof window !== "undefined" ? window.location.href : "http://localhost");
-    const roleParam = url.searchParams.get("role");
-    if (roleParam) {
-      const { setRole } = require("@/lib/role-store");
-      setRole(roleParam);
-    }
-  },
   component: Dashboard,
 });
 
@@ -98,6 +90,11 @@ const PIE_COLORS = [
 ];
 
 function Dashboard() {
+  // Initialize role from URL parameter before rendering
+  useEffect(() => {
+    initRole();
+  }, []);
+  
   const role = useRole();
   if (role === "agen") return <AppShell><AgenDashboard /></AppShell>;
   if (role === "jamaah") return <AppShell><JamaahDashboard /></AppShell>;
