@@ -3,9 +3,8 @@ export * from "./types";
 
 // Utils
 export * from "./lib/utils";
-export * from "./lib/roles";
 export * from "./lib/role-store";
-export * from "./lib/nav";
+export { NAV_GROUPS } from "./lib/nav";
 
 // Hooks
 export * from "./hooks/use-mobile";
