@@ -5,6 +5,7 @@ export * from "./types";
 export * from "./lib/utils";
 export * from "./lib/role-store";
 export { NAV_GROUPS } from "./lib/nav";
+export * from "./lib/platform-config";
 
 // Hooks
 export * from "./hooks/use-mobile";
